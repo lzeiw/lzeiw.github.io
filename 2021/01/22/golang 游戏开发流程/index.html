@@ -1,0 +1,217 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>golang 游戏开发流程(启动流程) | Livvv</title><meta name="keywords" content="服务器启动流程"><meta name="author" content="Livvv"><meta name="copyright" content="Livvv"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本系列文章用以记录当前使用golang 开发过程. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748&#x2F;&#x2F;节点结构type Node struct &amp;#123;	Observer &#x2F;&#x2F;观察者结构	name string&#x2F;&amp;#x">
+<meta property="og:type" content="article">
+<meta property="og:title" content="golang 游戏开发流程(启动流程)">
+<meta property="og:url" content="http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Livvv">
+<meta property="og:description" content="本系列文章用以记录当前使用golang 开发过程. 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748&#x2F;&#x2F;节点结构type Node struct &amp;#123;	Observer &#x2F;&#x2F;观察者结构	name string&#x2F;&amp;#x">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://livvv.xyz/img/movie/3.jpg">
+<meta property="article:published_time" content="2021-01-22T08:04:59.000Z">
+<meta property="article:modified_time" content="2021-01-25T09:24:35.057Z">
+<meta property="article:author" content="Livvv">
+<meta property="article:tag" content="服务器启动流程">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://livvv.xyz/img/movie/3.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: Livvv","link":"链接: ","source":"来源: Livvv","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2021-01-25 17:24:35'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"><link rel="alternate" href="/atom.xml" title="Livvv" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/img/pixiv/55942050_p0.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(/img/movie/3.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Livvv</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">golang 游戏开发流程(启动流程)</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-01-22T08:04:59.000Z" title="发表于 2021-01-22 16:04:59">2021-01-22</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-01-25T09:24:35.057Z" title="更新于 2021-01-25 17:24:35">2021-01-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/golang/">golang</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本系列文章用以记录当前使用golang 开发过程.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;节点结构</span><br><span class="line">type Node struct &#123;</span><br><span class="line">	Observer &#x2F;&#x2F;观察者结构</span><br><span class="line">	name string&#x2F;&#x2F;节点名</span><br><span class="line">	port int</span><br><span class="line">	stdErr *os.File</span><br><span class="line">	stdOut *os.File</span><br><span class="line">	services map[string]ServiceIfs&#x2F;&#x2F;key:节点服务名, value:节点服务 实现的server </span><br><span class="line">	allServices map[string]ServiceRegInfo</span><br><span class="line">	rpcService *RpcService</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Observer struct &#123;</span><br><span class="line">	router map[string]map[string]*Consumer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;这是整个节点的配置，包含了 连接库信息，挂载的服务</span><br><span class="line">&#123;</span><br><span class="line">  &quot;node_name&quot;: &quot;union&quot;,</span><br><span class="line">  &quot;db_keys&quot;: [&quot;res&quot;, &quot;user&quot;],</span><br><span class="line">  &quot;redis_keys&quot;: [&quot;protect&quot;],</span><br><span class="line">  &quot;log_level&quot;: &quot;DEBUG&quot;,</span><br><span class="line">  &quot;services&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;web_api&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;web_api&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;</span><br><span class="line">        &quot;port&quot;: 8774</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;gateway1&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;gateway&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;</span><br><span class="line">        &quot;port&quot;: 8786</span><br><span class="line">    &#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;login1&quot;,&quot;new_func&quot;: &quot;login&quot;, &quot;kw&quot;: &#123;&quot;dt_names&quot;: [&quot;register&quot;]&#125;&#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;logic1&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;logic&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;&quot;dt_names&quot;: [&quot;login&quot;, &quot;logout&quot;, &quot;resource&quot;, &quot;event&quot;, &quot;game&quot;, &quot;pay&quot;]&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;storage&quot;,&quot;new_func&quot;: &quot;storage&quot;, &quot;kw&quot;: &#123;&#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;sdk_login&quot;,&quot;new_func&quot;: &quot;sdk_login&quot;, &quot;kw&quot;: &#123;&quot;port&quot;: 8799&#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;cli_log&quot;,&quot;new_func&quot;: &quot;cli_log&quot;, &quot;kw&quot;: &#123;&quot;port&quot;: 8800&#125;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p><img src="/images/gameStart.png" alt="启动流程"></p>
+<p>读取配置文件 -&gt; 初始化mysql/redis 连接池 -&gt; 初始化节点(监听端口,注册handle) -&gt; 导入中心节点(检测启动/停止其他节点) -&gt; 节点服务初始化（logic,storage…）-&gt; 导入节点服务(监听端口,注册handle) -&gt; 各个节点服务开启</p>
+<p><p7><strong>具体说明</strong></p7><br>    1. 读取配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   &#x2F;&#x2F;读取配置文件解码赋值到配置结构中.</span><br><span class="line">   confFile, confReadErr :&#x3D; ioutil.ReadFile(confPath)</span><br><span class="line">   globalsConfig &#x3D; &amp;Config&#123;&#125;</span><br><span class="line">if err :&#x3D; JSONiter.Unmarshal(confFile, globalsConfig); err !&#x3D; nil &#123;</span><br><span class="line">	return err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre><code>2. 初始化mysql / redis连接池</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">      &#x2F;&#x2F;按需求配置</span><br><span class="line">pool :&#x3D; &amp;redis.Pool&#123;</span><br><span class="line">	MaxIdle:30,&#x2F;&#x2F;max空闲数</span><br><span class="line">	MaxActive:1000,&#x2F;&#x2F;max可用数时 Get后会返回pool</span><br><span class="line">	Wait:true,&#x2F;&#x2F;到达max可用数时 </span><br><span class="line">	IdleTimeout:time.Second * 6,&#x2F;&#x2F;空闲连接超过时间关闭</span><br><span class="line">	Dial: func() (redis.Conn, error) &#123;</span><br><span class="line">		return redis.DialURL(cfg.Addr, redis.DialDatabase(cfg.Num))</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;连接数据库</span><br><span class="line">sql.Open(&quot;mysql&quot;, &quot;root:psw@tcp(192.168.199.207:3306)&#x2F;table&quot;)</span><br></pre></td></tr></table></figure>
+<pre><code>3. 初始化节点</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;rpc 服务结构</span><br><span class="line">type RpcService struct &#123;</span><br><span class="line">	servers map[string]*RpcServer&#x2F;&#x2F; 监听, 注册handle</span><br><span class="line">	clients map[string]*RpcClient&#x2F;&#x2F;  call调用servers注册handle</span><br><span class="line">	mutex sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;后端服务结构</span><br><span class="line">type RpcServer struct &#123;</span><br><span class="line">	svr *rpc.Server</span><br><span class="line">	port int</span><br><span class="line">	started bool</span><br><span class="line">	name string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;客户端结构</span><br><span class="line">type RpcClient struct &#123;</span><br><span class="line">	client *rpc.Client</span><br><span class="line">	addr string</span><br><span class="line">	name string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">RpcService.servers 各个后端服务初始化监听, 注册handle</span><br><span class="line">RpcService.clients 各个客户服务初始化</span><br></pre></td></tr></table></figure>
+<pre><code>4.各个节点服务开启</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 各个节点服务 需要的接口</span><br><span class="line">type ServiceIfs interface &#123;</span><br><span class="line">	Init(name string, port int, conf Config, kw map[string]interface&#123;&#125;) error&#x2F;&#x2F;后端服务初始化监听</span><br><span class="line">	Start()&#x2F;&#x2F;开启各个节点服务</span><br><span class="line">	AfterStart()</span><br><span class="line">	StartFinish()</span><br><span class="line">	BeforeStop()</span><br><span class="line">	Stop()</span><br><span class="line">	GetRefInterface() interface&#123;&#125;</span><br><span class="line">	GetType() string</span><br><span class="line">	GetPort() int</span><br><span class="line">	GetRegExt() interface&#123;&#125;</span><br><span class="line">	NewRpcHandler() interface&#123;&#125;</span><br><span class="line">	SetStatus(status int32)</span><br><span class="line">	IsRunning() bool</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ServiceIfs.Start网关（暴露外部http）,定时缓存(redis)，定时存储(mysql),逻辑，客户端埋点...</span><br></pre></td></tr></table></figure>
+
+
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">Livvv</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/">http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://livvv.xyz" target="_blank">Livvv</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/">服务器启动流程</a></div><div class="post_share"><div class="social-share" data-image="/img/movie/3.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2021/01/25/Untitled/"><img class="prev-cover" src="/img/movie/6.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">golang 游戏开发流程(目录结构)</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/img/pixiv/55942050_p0.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">Livvv</div><div class="author-info__description">日日做着同样的事情, 循环着与往日相同的惯例.</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">标签</div><div class="length-num">4</div></a></div><div class="card-info-data-item is-center"><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="http://wpa.qq.com/msgrd?v=3&amp;uin=490799951&amp;site=qq&amp;menu=yes"><i class="fab fa-qq"></i><span>Add Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:490799951@qq.com" target="_blank" title="Email:490799951@qq.com"><i class="fas fa-envelope"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/28/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E8%AF%A6%E8%A7%A3)/" title="golang 游戏开发流程(数据存储详解) sign"><img src="/img/pixiv/header-pippi.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="golang 游戏开发流程(数据存储详解) sign"/></a><div class="content"><a class="title" href="/2021/01/28/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E8%AF%A6%E8%A7%A3)/" title="golang 游戏开发流程(数据存储详解) sign">golang 游戏开发流程(数据存储详解) sign</a><time datetime="2021-01-28T01:54:44.000Z" title="发表于 2021-01-28 09:54:44">2021-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/25/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B)/" title="golang 游戏开发流程(客户端登录流程)"><img src="/img/movie/4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="golang 游戏开发流程(客户端登录流程)"/></a><div class="content"><a class="title" href="/2021/01/25/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B)/" title="golang 游戏开发流程(客户端登录流程)">golang 游戏开发流程(客户端登录流程)</a><time datetime="2021-01-25T11:37:31.000Z" title="发表于 2021-01-25 19:37:31">2021-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/25/Untitled/" title="golang 游戏开发流程(目录结构)"><img src="/img/movie/6.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="golang 游戏开发流程(目录结构)"/></a><div class="content"><a class="title" href="/2021/01/25/Untitled/" title="golang 游戏开发流程(目录结构)">golang 游戏开发流程(目录结构)</a><time datetime="2021-01-25T07:42:59.000Z" title="发表于 2021-01-25 15:42:59">2021-01-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" title="golang 游戏开发流程(启动流程)"><img src="/img/movie/3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="golang 游戏开发流程(启动流程)"/></a><div class="content"><a class="title" href="/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/" title="golang 游戏开发流程(启动流程)">golang 游戏开发流程(启动流程)</a><time datetime="2021-01-22T08:04:59.000Z" title="发表于 2021-01-22 16:04:59">2021-01-22</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Livvv</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button id="chat_btn" type="button" title="rightside.chat_btn"><i class="fas fa-sms"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> {preloader.endLoading()})</script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script>((window.gitter = {}).chat = {}).options = {
+  disableDefaultChat: true,
+};
+document.addEventListener('gitter-sidecar-ready', (e) => {
+  const GitterChat = e.detail.Chat
+  let chat
+
+  function initGitter () {
+    chat = new GitterChat({
+      room: 'lzeiw/community',
+      activationElement: '#chat_btn'
+    });
+  }
+
+  initGitter()
+
+  if (false) {
+    document.addEventListener('pjax:complete', () => {
+      chat.destroy()
+      initGitter()
+    })
+  }
+
+})</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async="async" defer="defer"></script></div></body></html>

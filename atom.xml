@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Livvv</title>
+  
+  
+  <link href="http://livvv.xyz/atom.xml" rel="self"/>
+  
+  <link href="http://livvv.xyz/"/>
+  <updated>2021-02-01T09:01:37.239Z</updated>
+  <id>http://livvv.xyz/</id>
+  
+  <author>
+    <name>Livvv</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>golang 游戏开发流程(数据存储详解) sign</title>
+    <link href="http://livvv.xyz/2021/01/28/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E8%AF%A6%E8%A7%A3)/"/>
+    <id>http://livvv.xyz/2021/01/28/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E8%AF%A6%E8%A7%A3)/</id>
+    <published>2021-01-28T01:54:44.000Z</published>
+    <updated>2021-02-01T09:01:37.239Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>数据拉取</strong><br>    登录协议中会先从缓存拉取数据，如果没有则冲从redis中，还没有最后从mysql获取放入缓存.<br>数据存储</p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;strong&gt;数据拉取&lt;/strong&gt;&lt;br&gt;    登录协议中会先从缓存拉取数据，如果没有则冲从redis中，还没有最后从mysql获取放入缓存.&lt;br&gt;数据存储&lt;/p&gt;
+</summary>
+      
+    
+    
+    
+    <category term="golang" scheme="http://livvv.xyz/categories/golang/"/>
+    
+    
+    <category term="数据存储详解" scheme="http://livvv.xyz/tags/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E8%AF%A6%E8%A7%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>golang 游戏开发流程(客户端登录流程)</title>
+    <link href="http://livvv.xyz/2021/01/25/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B)/"/>
+    <id>http://livvv.xyz/2021/01/25/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B(%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B)/</id>
+    <published>2021-01-25T11:37:31.000Z</published>
+    <updated>2021-01-27T07:35:11.474Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/login.png" alt="客户端登录流程"></p><p><img src="/images/client.png" alt="客户端协议请求"></p><p><em>客户端通过url按照约定的结构与签名(taken+其他数据后  md5转换)封包websockct发送到网关 -&gt; 服务端接收到解包赋值入结构签名(taken+其他数据后md5转换)比较匹配成功使用rpc访问协议 -&gt; 登录认证协议(初始化/拉取玩家 消息) -&gt; 其他协议</em></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/login.png&quot; alt=&quot;客户端登录流程&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/images/client.png&quot; alt=&quot;客户端协议请求&quot;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;客户端通过url按照约定的结构与签名(taken+其他数据后</summary>
+      
+    
+    
+    
+    <category term="golang" scheme="http://livvv.xyz/categories/golang/"/>
+    
+    
+    <category term="客户端登录流程" scheme="http://livvv.xyz/tags/%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%99%BB%E5%BD%95%E6%B5%81%E7%A8%8B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>golang 游戏开发流程(目录结构)</title>
+    <link href="http://livvv.xyz/2021/01/25/Untitled/"/>
+    <id>http://livvv.xyz/2021/01/25/Untitled/</id>
+    <published>2021-01-25T07:42:59.000Z</published>
+    <updated>2021-01-26T07:29:10.644Z</updated>
+    
+    <content type="html"><![CDATA[<p><img src="/images/catalog.png" alt="项目目录"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">config:配置文件</span><br><span class="line">deploy:部署指令</span><br><span class="line">runtime:日志(err,info)</span><br><span class="line">script:打包脚本</span><br><span class="line">src:源码</span><br><span class="line">static:静态资源</span><br></pre></td></tr></table></figure><p><img src="/images/catalog2.png" alt="配置目录"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">json 结构</span><br></pre></td></tr></table></figure><p><img src="/images/catalog3.png" alt="资源目录"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">每个节点服务下都有个servive实现ServiceIfs接口(启动流程中会解释)</span><br></pre></td></tr></table></figure><p><img src="/images/catalog4.png" alt="网关服务"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">客户端通过http or websockt 访问.</span><br><span class="line">args开头的为协议.</span><br></pre></td></tr></table></figure><p><img src="/images/catalog5.png" alt="逻辑服务"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">hd开头对应协议跳到对应逻辑模块.</span><br></pre></td></tr></table></figure><p><img src="/images/catalog6.png" alt="资源服务"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">资源结构,热更，资源加工，方法调用.</span><br></pre></td></tr></table></figure><p><img src="/images/catalog7.png" alt="表结构"></p>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;&lt;img src=&quot;/images/catalog.png&quot; alt=&quot;项目目录&quot;&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/s</summary>
+      
+    
+    
+    
+    <category term="golang" scheme="http://livvv.xyz/categories/golang/"/>
+    
+    
+    <category term="目录结构" scheme="http://livvv.xyz/tags/%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>golang 游戏开发流程(启动流程)</title>
+    <link href="http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/"/>
+    <id>http://livvv.xyz/2021/01/22/golang%20%E6%B8%B8%E6%88%8F%E5%BC%80%E5%8F%91%E6%B5%81%E7%A8%8B/</id>
+    <published>2021-01-22T08:04:59.000Z</published>
+    <updated>2021-01-25T09:24:35.057Z</updated>
+    
+    <content type="html"><![CDATA[<p>本系列文章用以记录当前使用golang 开发过程.</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;节点结构</span><br><span class="line">type Node struct &#123;</span><br><span class="line">Observer &#x2F;&#x2F;观察者结构</span><br><span class="line">name string&#x2F;&#x2F;节点名</span><br><span class="line">port int</span><br><span class="line">stdErr *os.File</span><br><span class="line">stdOut *os.File</span><br><span class="line">services map[string]ServiceIfs&#x2F;&#x2F;key:节点服务名, value:节点服务 实现的server </span><br><span class="line">allServices map[string]ServiceRegInfo</span><br><span class="line">rpcService *RpcService</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">type Observer struct &#123;</span><br><span class="line">router map[string]map[string]*Consumer</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;这是整个节点的配置，包含了 连接库信息，挂载的服务</span><br><span class="line">&#123;</span><br><span class="line">  &quot;node_name&quot;: &quot;union&quot;,</span><br><span class="line">  &quot;db_keys&quot;: [&quot;res&quot;, &quot;user&quot;],</span><br><span class="line">  &quot;redis_keys&quot;: [&quot;protect&quot;],</span><br><span class="line">  &quot;log_level&quot;: &quot;DEBUG&quot;,</span><br><span class="line">  &quot;services&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;web_api&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;web_api&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;</span><br><span class="line">        &quot;port&quot;: 8774</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;gateway1&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;gateway&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;</span><br><span class="line">        &quot;port&quot;: 8786</span><br><span class="line">    &#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;login1&quot;,&quot;new_func&quot;: &quot;login&quot;, &quot;kw&quot;: &#123;&quot;dt_names&quot;: [&quot;register&quot;]&#125;&#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;name&quot;: &quot;logic1&quot;,</span><br><span class="line">      &quot;new_func&quot;: &quot;logic&quot;,</span><br><span class="line">      &quot;kw&quot;: &#123;&quot;dt_names&quot;: [&quot;login&quot;, &quot;logout&quot;, &quot;resource&quot;, &quot;event&quot;, &quot;game&quot;, &quot;pay&quot;]&#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;storage&quot;,&quot;new_func&quot;: &quot;storage&quot;, &quot;kw&quot;: &#123;&#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;sdk_login&quot;,&quot;new_func&quot;: &quot;sdk_login&quot;, &quot;kw&quot;: &#123;&quot;port&quot;: 8799&#125;&#125;,</span><br><span class="line">    &#123;&quot;name&quot;: &quot;cli_log&quot;,&quot;new_func&quot;: &quot;cli_log&quot;, &quot;kw&quot;: &#123;&quot;port&quot;: 8800&#125;&#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><p><img src="/images/gameStart.png" alt="启动流程"></p><p>读取配置文件 -&gt; 初始化mysql/redis 连接池 -&gt; 初始化节点(监听端口,注册handle) -&gt; 导入中心节点(检测启动/停止其他节点) -&gt; 节点服务初始化（logic,storage…）-&gt; 导入节点服务(监听端口,注册handle) -&gt; 各个节点服务开启</p><p><p7><strong>具体说明</strong></p7><br>    1. 读取配置文件</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">   &#x2F;&#x2F;读取配置文件解码赋值到配置结构中.</span><br><span class="line">   confFile, confReadErr :&#x3D; ioutil.ReadFile(confPath)</span><br><span class="line">   globalsConfig &#x3D; &amp;Config&#123;&#125;</span><br><span class="line">if err :&#x3D; JSONiter.Unmarshal(confFile, globalsConfig); err !&#x3D; nil &#123;</span><br><span class="line">return err</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><pre><code>2. 初始化mysql / redis连接池</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">      &#x2F;&#x2F;按需求配置</span><br><span class="line">pool :&#x3D; &amp;redis.Pool&#123;</span><br><span class="line">MaxIdle:30,&#x2F;&#x2F;max空闲数</span><br><span class="line">MaxActive:1000,&#x2F;&#x2F;max可用数时 Get后会返回pool</span><br><span class="line">Wait:true,&#x2F;&#x2F;到达max可用数时 </span><br><span class="line">IdleTimeout:time.Second * 6,&#x2F;&#x2F;空闲连接超过时间关闭</span><br><span class="line">Dial: func() (redis.Conn, error) &#123;</span><br><span class="line">return redis.DialURL(cfg.Addr, redis.DialDatabase(cfg.Num))</span><br><span class="line">&#125;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;连接数据库</span><br><span class="line">sql.Open(&quot;mysql&quot;, &quot;root:psw@tcp(192.168.199.207:3306)&#x2F;table&quot;)</span><br></pre></td></tr></table></figure><pre><code>3. 初始化节点</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;rpc 服务结构</span><br><span class="line">type RpcService struct &#123;</span><br><span class="line">servers map[string]*RpcServer&#x2F;&#x2F; 监听, 注册handle</span><br><span class="line">clients map[string]*RpcClient&#x2F;&#x2F;  call调用servers注册handle</span><br><span class="line">mutex sync.Mutex</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;后端服务结构</span><br><span class="line">type RpcServer struct &#123;</span><br><span class="line">svr *rpc.Server</span><br><span class="line">port int</span><br><span class="line">started bool</span><br><span class="line">name string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;客户端结构</span><br><span class="line">type RpcClient struct &#123;</span><br><span class="line">client *rpc.Client</span><br><span class="line">addr string</span><br><span class="line">name string</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">RpcService.servers 各个后端服务初始化监听, 注册handle</span><br><span class="line">RpcService.clients 各个客户服务初始化</span><br></pre></td></tr></table></figure><pre><code>4.各个节点服务开启</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 各个节点服务 需要的接口</span><br><span class="line">type ServiceIfs interface &#123;</span><br><span class="line">Init(name string, port int, conf Config, kw map[string]interface&#123;&#125;) error&#x2F;&#x2F;后端服务初始化监听</span><br><span class="line">Start()&#x2F;&#x2F;开启各个节点服务</span><br><span class="line">AfterStart()</span><br><span class="line">StartFinish()</span><br><span class="line">BeforeStop()</span><br><span class="line">Stop()</span><br><span class="line">GetRefInterface() interface&#123;&#125;</span><br><span class="line">GetType() string</span><br><span class="line">GetPort() int</span><br><span class="line">GetRegExt() interface&#123;&#125;</span><br><span class="line">NewRpcHandler() interface&#123;&#125;</span><br><span class="line">SetStatus(status int32)</span><br><span class="line">IsRunning() bool</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ServiceIfs.Start网关（暴露外部http）,定时缓存(redis)，定时存储(mysql),逻辑，客户端埋点...</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+      
+      
+    <summary type="html">&lt;p&gt;本系列文章用以记录当前使用golang 开发过程.&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span cla</summary>
+      
+    
+    
+    
+    <category term="golang" scheme="http://livvv.xyz/categories/golang/"/>
+    
+    
+    <category term="服务器启动流程" scheme="http://livvv.xyz/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%AF%E5%8A%A8%E6%B5%81%E7%A8%8B/"/>
+    
+  </entry>
+  
+</feed>
